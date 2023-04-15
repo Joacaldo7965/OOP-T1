@@ -15,6 +15,8 @@ public class Stage1 {
         for (int i = 0; i < numDoors; i++)
             doors.add(new Door());
         int numWindows = in.nextInt();
+        for (int i = 0; i < numWindows; i++)
+            windows.add(new Window());
         // TODO
         in.close();
     }
@@ -60,7 +62,7 @@ public class Stage1 {
             System.exit(-1);
         }
         Scanner in = new Scanner(new File(args[0]));
-        //System.out.println("File: " + args[0]);
+        System.out.println("File: " + args[0]);
         Stage1 stage = new Stage1();
         stage.readConfiguration(in);
         stage.executeUserInteraction(new Scanner(System.in), new PrintStream(new File("output.csv")));

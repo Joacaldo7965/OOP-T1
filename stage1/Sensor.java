@@ -1,16 +1,17 @@
 public class Sensor {
+    private SwitchState state;
+
     public Sensor(){
         this(SwitchState.OPEN);
     }
     public Sensor(SwitchState s){
-        // TODO
+        state = s;
     }
     public SwitchState getState(){
-        // TODO
-        return null;
+        return state;
     }
     protected void setState(SwitchState s) {
-        // TODO
+        state = s;
     }
     public String toString(){
         if (state== SwitchState.CLOSE)
@@ -18,5 +19,5 @@ public class Sensor {
         else
             return "0";
     }
-    private SwitchState state;
+    
 }

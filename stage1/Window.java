@@ -5,25 +5,31 @@ public class Window {
     private static int nextId=0;
     
     public Window() {
-        // TODO
+        magneticSensor = new MagneticSensor();
+        state = State.CLOSE;
     }
     {
         id = nextId++;
     }
+
     public void open() {
-        // TODO
-        return;
+        magneticSensor.moveMagnetAwayFromSwitch();
+        state = State.OPEN;
     }
+
     public void close() {
-        // TODO
-        return;
+        magneticSensor.putMagnetNearSwitch();
+        state = State.CLOSE;
     }
+
     public String getHeader(){
         return "w"+id;
     }
-    public int getState(){
-        // TODO
-        return 0;
+
+    public State getState(){
+        if(magneticSensor.getState() == SwitchState.OPEN)
+            return State.OPEN;
+        return State.CLOSE;
     }
     
 }

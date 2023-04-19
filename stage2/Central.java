@@ -3,19 +3,16 @@ import java.util.ArrayList;
 public class Central {
 
     // TODO: create class Zone ??
-    private ArrayList<ArrayList<Frame>> zones;
-    //private ArrayList<Frame> zone0;
-    //private ArrayList<Frame> zone1;
+
+    private ArrayList<Sensor> zone0;
+    private ArrayList<Sensor> zone1;
 
     private boolean isArmed;
     private Siren siren;
 
-    public Central(int n_zones){
-        zones = new ArrayList<ArrayList<Frame>>(n_zones);
-
-        for(int i = 0; i < n_zones; i++){
-            zones.add(new ArrayList<Frame>());
-        }
+    public Central(){
+        zone0 = new ArrayList<Sensor>();
+        zone1 = new ArrayList<Sensor>();
 
         isArmed = false;
         siren = null;
@@ -38,17 +35,20 @@ public class Central {
     public ArrayList<Integer> getOpenZones(){
         ArrayList<Integer> zonesOpen = new ArrayList<Integer>();
 
-        // For each zone z
-        for(int z = 0; z < zones.size(); z++){
-            ArrayList<Frame> zoneZ = zones.get(z);
-            // Loop through the zone until open frame
-            for(int i = 0; i < zoneZ.size(); i++)
-                if(zoneZ.get(i).getState() == State.OPEN){
-                    zonesOpen.add(z);
-                    break;
-                }
+        // Zone 0
+        for (int i = 0; i < zone0.size(); i++) {
+            if(zone0.get(i).getState() == SwitchState.OPEN){
+                zonesOpen.add(0);
+                break;
+            }
         }
-                
+        // Zone 1
+        for (int i = 0; i < zone1.size(); i++) {
+            if(zone1.get(i).getState() == SwitchState.OPEN){
+                zonesOpen.add(1);
+                break;
+            }
+        }
         return zonesOpen;
     }
 
@@ -61,55 +61,38 @@ public class Central {
         siren = s;
     }
 
-    public void addNewSensor(int zone_index, Frame s){
+    public void addNewSensor(int zone_index, Sensor s){
         // zone_index : (0, 1, ... , n)
-        if(s.getClass() == Door.class){
-            Door d = (Door) s;
-            zones.get(zone_index).add(d);   
-        } else if(s.getClass() == Window.class){
-            Window w = (Window) s;
-            zones.get(zone_index).add(w);
-        } else{
-            System.out.println("EROOOOOOOOOOOOOOOOR");
+        switch (zone_index) {
+            case 0:
+                zone0.add(s);
+                break;
+            case 1:
+                zone1.add(s);
+                break;
         }
-
-        // ArrayList<Frame> zoneSelected = zones.get(zone_index);
-        // zoneSelected.add(s);
-        // zones.set(zone_index, zoneSelected);
-        zones.get(zone_index).add(s);
     }
 
-    // public void addNewDoor(int zone_index, Door s){
-    //     // zone_index : (0, 1, ... , n)
-
-    //     // ArrayList<Frame> zoneSelected = zones.get(zone_index);
-    //     // zoneSelected.add(s);
-    //     // zones.set(zone_index, zoneSelected);
-    //     zones.get(zone_index).add(s);
-    // }
-
-    // public void addNewWindow(int zone_index, Window s){ 
-    //     // zone_index : (0, 1, ... , n)
-
-    //     // ArrayList<Frame> zoneSelected = zones.get(zone_index);
-    //     // zoneSelected.add(s);
-    //     // zones.set(zone_index, zoneSelected);
-    //     zones.get(zone_index).add(s);
-    // }
-
-    public void openFrameInZone(int zone_index, int frame_index){
-        //ArrayList<Frame> zoneSelected = zones.get(zone_index);
-
-        //zoneSelected.get(frame_index)
-
-        //zones.set(zone_index, zoneSelected);
-        zones.get(zone_index).get(frame_index).open(); // With this im opening the Frame but not the magnetic sensor Oops
+    public void activateSensorInZone(int zone_index, int sensor_index){
+        switch (zone_index) {
+            case 0:
+                zone0.get(sensor_index).setState(SwitchState.OPEN);
+                break;
+            case 1:
+                zone1.get(sensor_index).setState(SwitchState.OPEN);
+                break;
+        }
     }
 
-
-    public void closeFrameInZone(int zone_index, int frame_index){
-        zones.get(zone_index).get(frame_index).close(); // With this im opening the Frame but not the magnetic sensor Oops
-
+    public void deactivateSensorInZone(int zone_index, int sensor_index){
+        switch (zone_index) {
+            case 0:
+                zone0.get(sensor_index).setState(SwitchState.CLOSE);
+                break;
+            case 1:
+                zone1.get(sensor_index).setState(SwitchState.CLOSE);
+                break;
+        }
     }
 
     public void checkZone(){
@@ -123,35 +106,36 @@ public class Central {
             }
 
         }
+        
         siren.stop();
     }
 
-    public String getHeader(){
-        
-        for(int z = 0; z < zones.size(); z++){
-            ArrayList<Frame> zoneZ = zones.get(z);
-            // Loop through the zone until open frame
-            for(int i = 0; i < zoneZ.size(); i++){
-                Frame f = zoneZ.get(i);
-                if(f.getClass() == Door.class){
-                    Door d = (Door) f;
-                    d.getHeader()
-                } else if(f.getClass() == Window.class){
-                    Window w = (Window) f;
-                }
-            }
-                
+    public void printStates(){
+        System.out.println("Zone 0");
+        for (int i = 0; i < zone0.size(); i++) {
+            System.out.print(" " + zone0.get(i).getState());
         }
-        return "Central";
+        System.out.println();
+        System.out.println("Zone 1");
+        for (int i = 0; i < zone1.size(); i++) {
+            System.out.print(" " + zone1.get(i).getState());
+        }
+        System.out.println();
     }
 
-    public String getZoneHeader(){
-
-        
-        return "";
+    public String getHeader(){
+        return "Central";
     }
 
     public int getState(){
         return isArmed ? 1 : 0;
+    }
+
+    public int getSizeZone0(){
+        return zone0.size();
+    }
+
+    public int getSizeZone1(){
+        return zone1.size();
     }
 }

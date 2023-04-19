@@ -16,13 +16,20 @@ public class Siren {
         isSounding = false;
     }
     public void play(){
-        // TODO ...
+        if(isSounding)
+            stop();
+        
+        isSounding = true; // ?????????
+        
         aWave = new AePlayWave(dir);
         aWave.start();
+
     }
     public void stop(){
-        // TODO ...
-        aWave.stopSounding();
+        
+        if(isSounding)
+            aWave.stopSounding();
+        isSounding = false;
     }
     public String getHeader() {
         return "Siren";

@@ -18,6 +18,7 @@ public class Door extends Frame{
         magneticSensor.moveMagnetAwayFromSwitch();
     }
 
+    @Override
     public void close() {
         magneticSensor.putMagnetNearSwitch();
     }
@@ -25,4 +26,8 @@ public class Door extends Frame{
     public String getHeader(){
         return "d"+id;
     }    
+
+    public Sensor getSensor(){
+        return magneticSensor;
+    }
 }

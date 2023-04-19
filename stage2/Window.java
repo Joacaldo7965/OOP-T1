@@ -25,4 +25,8 @@ public class Window extends Frame{
     public String getHeader(){
         return "w"+id;
     }
+    
+    public Sensor getSensor(){
+        return magneticSensor;
+    }
 }

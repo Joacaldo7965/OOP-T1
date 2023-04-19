@@ -134,7 +134,10 @@ public class Stage1 {
         System.out.println("File: " + args[0]);
         Stage1 stage = new Stage1();
         stage.readConfiguration(in);
+
+        // DEBUG
         stage.printConfiguration();
+
         stage.executeUserInteraction(new Scanner(System.in), new PrintStream(new File("output.csv")));
     }
 }

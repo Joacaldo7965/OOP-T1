@@ -4,7 +4,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Stage3 {
+public class Stage4 {
     private ArrayList<Door> doors;
     private ArrayList<Window> windows;
     private ArrayList<PIR_Detector> pirs;
@@ -12,7 +12,7 @@ public class Stage3 {
     private Central central;
     private Siren siren;
     
-    public Stage3(){
+    public Stage4(){
         doors = new ArrayList<Door>();
         windows = new ArrayList<Window>();
         pirs = new ArrayList<PIR_Detector>();
@@ -145,7 +145,7 @@ public class Stage3 {
                             break;
                         case 'p': 
                             // Arm perimeter
-                            // TODO: ???
+                            central.armNightMode();
                             break;
                         case 'd':
                             // Disarm
@@ -185,16 +185,18 @@ public class Stage3 {
                     break;
             }
             
-            if(central.isActive()){
+            if(central.isActive() && !central.isNightModeActive()){
                 // For each PIR and for each person check for detection
                 for (int j = 0; j < pirs.size(); j++) {
                     boolean founded = pirs.get(j).detectPeople(people);
+                    //System.out.println("founded: " + founded);
                     if (!founded) // Found nobody
                         central.deactivateSensorInZone(2, j);
                     else // Found at least 1 person
                         central.activateSensorInZone(2, j);     
                 }
             }
+
             central.checkZone();
         }
     }
@@ -242,12 +244,12 @@ public class Stage3 {
 
     public static void main(String [] args) throws IOException {
         if (args.length != 1) {
-            System.out.println("Usage: java Stage3 <configurationFile.txt>");
+            System.out.println("Usage: java Stage4 <configurationFile.txt>");
             System.exit(-1);
         }
         Scanner in = new Scanner(new File(args[0]));
         //System.out.println("File: " + args[0]);
-        Stage3 stage = new Stage3();
+        Stage4 stage = new Stage4();
         stage.readConfiguration(in);
 
         // DEBUG

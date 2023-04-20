@@ -33,8 +33,8 @@ public class Central {
     public void arm() {
         ArrayList<Integer> zonesOpen = getOpenZones();
         if(zonesOpen.size() == 0){
-            isArmed=true;
-            
+            isArmed = true;
+            isNightModeActive = false;
         }else{
             System.out.print("Zonas no cerradas:");
             for (int i = 0; i < zonesOpen.size(); i++) {
@@ -53,6 +53,12 @@ public class Central {
         }else if(zonesOpen.size() == 1 && zonesOpen.contains(2)){
             isArmed = true;
             isNightModeActive = true;
+            
+            // Deactivate already activated sensors
+            for (int i = 0; i < zone2.size(); i++)
+                zone2.get(i).setState(SwitchState.CLOSE);
+            
+
         }else{
             System.out.print("Zonas no cerradas:");
             for (int i = 0; i < zonesOpen.size(); i++) {
@@ -165,6 +171,11 @@ public class Central {
         System.out.println("Zone 1");
         for (int i = 0; i < zone1.size(); i++) {
             System.out.print(" " + zone1.get(i).getState());
+        }
+        System.out.println();
+        System.out.println("Zone 2");
+        for (int i = 0; i < zone2.size(); i++) {
+            System.out.print(" " + zone2.get(i).getState());
         }
         System.out.println();
     }

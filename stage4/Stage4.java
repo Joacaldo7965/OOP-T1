@@ -146,6 +146,11 @@ public class Stage4 {
                         case 'p': 
                             // Arm perimeter
                             central.armNightMode();
+
+                            // Deactivate already activated PIRs
+                            for (int j = 0; j < pirs.size(); j++)
+                                pirs.get(j).deactivateSensor();
+                            
                             break;
                         case 'd':
                             // Disarm

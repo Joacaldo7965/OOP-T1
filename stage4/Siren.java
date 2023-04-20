@@ -18,19 +18,18 @@ public class Siren {
     public void play(){
         if(isSounding)
             stop();
-        
         isSounding = true;
         
         aWave = new AePlayWave(dir);
         //aWave.start();
         System.out.println("Sonando...");
-
     }
+
     public void stop(){
         if(isSounding){
             aWave.stopSounding();
             isSounding = false;
-            System.out.println("Deteniendo sonido");
+            System.out.println("Deteniendo sonido..");
         }
         
     }

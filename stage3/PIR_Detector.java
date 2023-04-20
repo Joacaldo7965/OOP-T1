@@ -30,8 +30,12 @@ public class PIR_Detector extends Sensor {
     public boolean detectPeople(ArrayList<Person> people){
         for (int i = 0; i < people.size(); i++) {
             Person p = people.get(i);
+            float px = p.getPosX();
+            float py = p.getPosY();
 
-            if(isPointInRange(p.getPosX(), p.getPosY())){
+            System.out.println("pos: " + px + ", " + py);
+
+            if(isPointInRange(px, py)){
                 activateSensor();
                 return true;
             }
@@ -46,13 +50,17 @@ public class PIR_Detector extends Sensor {
         float d2 = dx*dx + dy*dy;
 
         // If not in range return false
-        if(d2 > sens_range*sens_range)
+        float range2 = sens_range*sens_range;
+        //System.out.println("d2: " + d2 + ", range2: " + range2);
+        if(d2 > range2)
             return false;
         
         // Angle validation  *considering dir_angle in the middle of sens_angle
-        float gamma = (float) Math.atan2(dy, dx);
+        float gamma = (float) Math.toDegrees(Math.atan2(dy, dx));
+        System.out.println("dy: " + dy + ", dx: " + dx);
+        System.out.println("gamma: " + gamma);
         float dif = Math.abs(gamma - dir_angle);
-        if(dif < sens_angle/2)
+        if(dif <= sens_angle/2)
             return true;
         
         return false;

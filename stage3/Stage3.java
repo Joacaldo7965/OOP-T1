@@ -188,6 +188,7 @@ public class Stage3 {
             // For each PIR and for each person check for detection
             for (int j = 0; j < pirs.size(); j++) {
                 boolean founded = pirs.get(j).detectPeople(people);
+                System.out.println("founded: " + founded);
                 if (!founded) // Found nobody
                     central.deactivateSensorInZone(2, j);
                 else // Found at least 1 person

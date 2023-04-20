@@ -96,12 +96,13 @@ public class Central {
     }
 
     public void checkZone(){
-        // TODO
         if(isArmed){
             ArrayList<Integer> openZones = getOpenZones();
-            if(openZones.size() != 0)
+            if(openZones.size() != 0){
                 siren.play();
-            else{
+                return;
+            
+            } else {
                 //siren.stop(); // ??? We dont want intruders to simply close the door to shut the alarm xD
             }
 
@@ -110,6 +111,7 @@ public class Central {
         siren.stop();
     }
 
+    // DEBUG
     public void printStates(){
         System.out.println("Zone 0");
         for (int i = 0; i < zone0.size(); i++) {

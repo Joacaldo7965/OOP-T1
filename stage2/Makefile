@@ -7,6 +7,7 @@ FILE=config.txt
 	$(JC) $(JFLAGS) $*.java
 
 CLASSES = \
+        ._AePlayWave.java \
         AePlayWave.java \
         Siren.java \
         Central.java \

@@ -27,3 +27,4 @@ hs_err_pid*
 # Output files
 stage1/output.csv
 stage2/output.csv
+*.Identifier

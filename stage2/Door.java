@@ -15,11 +15,13 @@ public class Door extends Frame{
 
     @Override
     public void open() {
+        super.open();
         magneticSensor.moveMagnetAwayFromSwitch();
     }
 
     @Override
     public void close() {
+        super.close();
         magneticSensor.putMagnetNearSwitch();
     }
 

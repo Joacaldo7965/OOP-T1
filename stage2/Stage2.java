@@ -40,6 +40,10 @@ public class Stage2 {
         in.nextLine(); // ???
 
         String soundFile = in.next();
+
+        // DEBUG
+        //System.out.println("Sound file: '" + soundFile + "'");
+
         siren = new Siren(soundFile);
         central.setSiren(siren);
 
@@ -74,21 +78,20 @@ public class Stage2 {
                         break;
                     }
 
-                    if (parameter== 'o'){
+                    if (parameter == 'o'){
                         doors.get(i).open();
+
                         if(i == 0){
                             central.activateSensorInZone(0, i);
                         } else{
-                            central.activateSensorInZone(1, i);
-                        }
-                            
+                            central.activateSensorInZone(1, i - 1);
+                        }  
                     } else if(parameter == 'c'){
                         doors.get(i).close();
                         if(i == 0) // Close door 0 from zone 0
                             central.deactivateSensorInZone(0, i);
                         else // All other doors are in zone 1
-                            central.deactivateSensorInZone(1, i);;
-                        
+                            central.deactivateSensorInZone(1, i - 1); 
                     } else
                         System.out.println("Parameter '" + parameter + "' does not exist. Use 'o' or 'c'");
                     break;
@@ -131,6 +134,7 @@ public class Stage2 {
                             break;
                     }
                     break;
+                // DEBUG
                 case 't':
                     central.printStates();
                     break;
@@ -188,7 +192,7 @@ public class Stage2 {
         stage.readConfiguration(in);
 
         // DEBUG
-        stage.printConfiguration();
+        //stage.printConfiguration();
         
         stage.executeUserInteraction(new Scanner(System.in), new PrintStream(new File("output.csv")));
     }

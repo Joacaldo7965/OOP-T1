@@ -2,7 +2,7 @@ public class Sensor {
     private SwitchState state;
 
     public Sensor(){
-        this(SwitchState.OPEN);
+        this(SwitchState.CLOSE);
     }
     public Sensor(SwitchState s){
         state = s;

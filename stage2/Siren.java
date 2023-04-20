@@ -19,23 +19,26 @@ public class Siren {
         if(isSounding)
             stop();
         
-        isSounding = true; // ?????????
+        isSounding = true;
         
         aWave = new AePlayWave(dir);
-        aWave.start();
+        //aWave.start();
+        System.out.println("Sonando...");
 
     }
     public void stop(){
-        
-        if(isSounding)
+        if(isSounding){
             aWave.stopSounding();
-        isSounding = false;
+            isSounding = false;
+            System.out.println("Deteniendo sonido");
+        }
+        
     }
     public String getHeader() {
         return "Siren";
     }
     public int getState() {
-        return (isSounding ? 1 : 0); // TODO: Check if it's reversed
+        return (isSounding ? 1 : 0);
     }
     
 }

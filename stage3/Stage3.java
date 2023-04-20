@@ -1,16 +1,11 @@
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Scanner;
 
-public class Stage2 {
+public class Stage3 {
     private ArrayList<Door> doors;
     private ArrayList<Window> windows;
     private Central central;
     private Siren siren;
-
-    public Stage2() {
+    
+    public Stage3(){
         doors = new ArrayList<Door>();
         windows = new ArrayList<Window>();
     }
@@ -148,7 +143,7 @@ public class Stage2 {
 
     // DEBUG
     public void printConfiguration(){
-        System.out.println(doors.size() + " doors(s) , " + windows.size() + " window(s), 1 Central y 1 Siren.");
+        System.out.println(doors.size() + " door(s) , " + windows.size() + " window(s), 1 Central y 1 Siren.");
         System.out.println("Doors: " + doors.size());
         System.out.println("Windows: " + windows.size());
         System.out.println("Central: " + central.getSizeZone0() + ", " + central.getSizeZone1());
@@ -183,12 +178,12 @@ public class Stage2 {
 
     public static void main(String [] args) throws IOException {
         if (args.length != 1) {
-            System.out.println("Usage: java Stage2 <configurationFile.txt>");
+            System.out.println("Usage: java Stage3 <configurationFile.txt>");
             System.exit(-1);
         }
         Scanner in = new Scanner(new File(args[0]));
         //System.out.println("File: " + args[0]);
-        Stage2 stage = new Stage2();
+        Stage3 stage = new Stage3();
         stage.readConfiguration(in);
 
         // DEBUG

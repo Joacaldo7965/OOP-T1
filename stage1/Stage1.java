@@ -100,7 +100,7 @@ public class Stage1 {
 
     // DEBUG
     public void printConfiguration(){
-        System.out.println(doors.size() + " puerta(s) y " + windows.size() + " ventana(s).");
+        System.out.println(doors.size() + " door(s) y " + windows.size() + " window(s).");
     }
 
     public void printHeader(PrintStream out){

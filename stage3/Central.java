@@ -54,7 +54,7 @@ public class Central {
         // Zone 2
         for (int i = 0; i < zone2.size(); i++) {
             if(zone2.get(i).getState() == SwitchState.OPEN){
-                zonesOpen.add(1);
+                zonesOpen.add(2);
                 break;
             }
         }
@@ -157,5 +157,9 @@ public class Central {
 
     public int getSizeZone2(){
         return zone2.size();
+    }
+
+    public boolean isActive(){
+        return isArmed;
     }
 }

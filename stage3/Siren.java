@@ -35,7 +35,7 @@ public class Siren {
         
     }
     public String getHeader() {
-        return "Siren";
+        return "\tSiren";
     }
     public int getState() {
         return (isSounding ? 1 : 0);

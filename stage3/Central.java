@@ -3,9 +3,10 @@ import java.util.ArrayList;
 public class Central {
 
     // TODO: create class Zone ??
-
+    // TODO: generalize to N zones
     private ArrayList<Sensor> zone0;
     private ArrayList<Sensor> zone1;
+    private ArrayList<Sensor> zone2;
 
     private boolean isArmed;
     private Siren siren;
@@ -13,6 +14,7 @@ public class Central {
     public Central(){
         zone0 = new ArrayList<Sensor>();
         zone1 = new ArrayList<Sensor>();
+        zone2 = new ArrayList<Sensor>();
 
         isArmed = false;
         siren = null;
@@ -49,6 +51,13 @@ public class Central {
                 break;
             }
         }
+        // Zone 2
+        for (int i = 0; i < zone2.size(); i++) {
+            if(zone2.get(i).getState() == SwitchState.OPEN){
+                zonesOpen.add(1);
+                break;
+            }
+        }
         return zonesOpen;
     }
 
@@ -70,6 +79,9 @@ public class Central {
             case 1:
                 zone1.add(s);
                 break;
+            case 2:
+                zone2.add(s);
+                break;
         }
     }
 
@@ -80,6 +92,9 @@ public class Central {
                 break;
             case 1:
                 zone1.get(sensor_index).setState(SwitchState.OPEN);
+                break;
+            case 2:
+                zone2.get(sensor_index).setState(SwitchState.OPEN);
                 break;
         }
     }
@@ -92,6 +107,9 @@ public class Central {
             case 1:
                 zone1.get(sensor_index).setState(SwitchState.CLOSE);
                 break;
+            case 2:
+                zone2.get(sensor_index).setState(SwitchState.CLOSE);
+                break;
         }
     }
 
@@ -101,11 +119,7 @@ public class Central {
             if(openZones.size() != 0){
                 siren.play();
                 return;
-            
-            } else {
-                //siren.stop(); // ??? We dont want intruders to simply close the door to shut the alarm xD
             }
-
         }
         
         siren.stop();
@@ -126,7 +140,7 @@ public class Central {
     }
 
     public String getHeader(){
-        return "Central";
+        return "\tCentral";
     }
 
     public int getState(){
@@ -139,5 +153,9 @@ public class Central {
 
     public int getSizeZone1(){
         return zone1.size();
+    }
+
+    public int getSizeZone2(){
+        return zone2.size();
     }
 }

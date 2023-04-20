@@ -1,10 +1,7 @@
 public class Door extends Frame{
     private MagneticSensor magneticSensor;
     private final int id;
-    private static int nextId;
-    static {
-        nextId = 0;
-    }
+    private static int nextId=0;
 
     public Door () {
         magneticSensor = new MagneticSensor();
@@ -26,7 +23,7 @@ public class Door extends Frame{
     }
 
     public String getHeader(){
-        return "d"+id;
+        return "\td"+id;
     }    
 
     public Sensor getSensor(){

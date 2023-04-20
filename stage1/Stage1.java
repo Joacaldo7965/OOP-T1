@@ -59,7 +59,7 @@ public class Stage1 {
 
                     // Index validation
                     if(index >= doors.size()){
-                        System.out.println("Door " + index + " does not exist. (Use 0-" + index + ")");
+                        System.out.println("Door " + index + " does not exist. (Use 0-" + (doors.size()-1) + ")");
                         break;
                     }
 
@@ -80,7 +80,7 @@ public class Stage1 {
 
                     // Index validation
                     if(index >= windows.size()){
-                        System.out.println("Window " + index + " does not exist. (Use 0-" + index + ")");
+                        System.out.println("Window " + index + " does not exist. (Use 0-" + (windows.size()-1) + ")");
                         break;
                     }
 

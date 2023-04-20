@@ -1,17 +1,26 @@
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Stage3 {
     private ArrayList<Door> doors;
     private ArrayList<Window> windows;
+    private ArrayList<PIR_Detector> pirs;
+    private ArrayList<Person> people;
     private Central central;
     private Siren siren;
     
     public Stage3(){
         doors = new ArrayList<Door>();
         windows = new ArrayList<Window>();
+        pirs = new ArrayList<PIR_Detector>();
+        people = new ArrayList<Person>();
+        central = new Central();
     }
 
     public void readConfiguration(Scanner in){
-        central = new Central();
 
         // reading <#_doors> <#_windows> <#_PIRs>
         int numDoors = in.nextInt();
@@ -24,6 +33,7 @@ public class Stage3 {
             else // Other doors added to Zone 1
                 central.addNewSensor(1, d.getSensor());
         }
+
         int numWindows = in.nextInt();
         for (int i = 0; i < numWindows; i++) {
             Window w = new Window();
@@ -32,6 +42,23 @@ public class Stage3 {
             // All windows added to Zone 1
             central.addNewSensor(1, w.getSensor());
         }
+
+        int numPIRs = in.nextInt();
+        for (int i = 0; i < numPIRs; i++) {
+            float x = in.nextFloat();
+            float y = in.nextFloat();
+            float dir_angle = (float) in.nextInt();
+            float sens_angle = (float) in.nextInt();
+            float sens_range = (float) in.nextInt();
+
+            PIR_Detector p = new PIR_Detector(x, y, dir_angle, sens_angle, sens_range);
+            System.out.println(p);
+            pirs.add(p);
+
+            // All PIRs added to Zone 2
+            central.addNewSensor(2, p);
+        }
+
         in.nextLine(); // ???
 
         String soundFile = in.next();
@@ -69,7 +96,7 @@ public class Stage3 {
 
                     // Index validation
                     if(i >= doors.size()){
-                        System.out.println("Door " + i + " does not exist. Use (0-" + i + ")");
+                        System.out.println("Door " + i + " does not exist. Use (0-" + (doors.size()-1) + ")");
                         break;
                     }
 
@@ -96,7 +123,7 @@ public class Stage3 {
 
                     // Index validation
                     if(i >= windows.size()){
-                        System.out.println("Window " + i + " does not exist. Use (0-" + i + ")");
+                        System.out.println("Window " + i + " does not exist. Use (0-" + (windows.size()-1) + ")");
                         break;
                     }
 
@@ -129,6 +156,26 @@ public class Stage3 {
                             break;
                     }
                     break;
+                case 'c':
+                    float inputX = in.nextFloat();
+                    float inputY = in.nextFloat();
+
+                    people.add(new Person(inputX, inputY));
+
+                    break;
+                case 'p':
+                    i = Integer.parseInt(command.substring(1));
+                    parameter = in.next().charAt(0);
+
+                    // Index validation
+                    if(i >= people.size()){
+                        System.out.println("Person " + i + " does not exist. Use (0-" + (people.size()-1) + ")");
+                        break;
+                    }
+
+                    people.get(i).moveTo(parameter);
+
+                    break;
                 // DEBUG
                 case 't':
                     central.printStates();
@@ -137,6 +184,16 @@ public class Stage3 {
                     System.out.println("Command '" +  command + "' does not exists. Use 'd', 'w', 'k', 'x'");
                     break;
             }
+            
+            // For each PIR and for each person check for detection
+            for (int j = 0; j < pirs.size(); j++) {
+                boolean founded = pirs.get(j).detectPeople(people);
+                if (!founded) // Found nobody
+                    central.deactivateSensorInZone(2, j);
+                else // Found at least 1 person
+                    central.activateSensorInZone(2, j);     
+            }
+
             central.checkZone();
         }
     }
@@ -146,20 +203,24 @@ public class Stage3 {
         System.out.println(doors.size() + " door(s) , " + windows.size() + " window(s), 1 Central y 1 Siren.");
         System.out.println("Doors: " + doors.size());
         System.out.println("Windows: " + windows.size());
-        System.out.println("Central: " + central.getSizeZone0() + ", " + central.getSizeZone1());
+        System.out.println("PIRs: " + pirs.size());
+        System.out.println("Central: " + central.getSizeZone0() + ", " + central.getSizeZone1() + ", " + central.getSizeZone2());
     }
 
     public void printHeader(PrintStream out){
         out.print("Step");
         for (int i = 0; i < doors.size(); i++)
-            out.print("\t" + doors.get(i).getHeader());
+            out.print(doors.get(i).getHeader());
         for (int i = 0; i < windows.size(); i++)
-            out.print("\t" + windows.get(i).getHeader());
+            out.print(windows.get(i).getHeader());
+        for (int i = 0; i < pirs.size(); i++)
+            out.print(pirs.get(i).getHeader());
 
-        // TODO
+        out.print(siren.getHeader());
+        out.print(central.getHeader());
 
-        out.print("\t" + siren.getHeader());
-        out.print("\t" + central.getHeader());
+        for (int i = 0; i < people.size(); i++)
+            out.print(people.get(i).getHeader());
         
         out.println();
     }
@@ -170,9 +231,14 @@ public class Stage3 {
             out.print("\t" + doors.get(i).getState());
         for(int i = 0; i < windows.size(); i++)
             out.print("\t" + windows.get(i).getState());
-        // TODO
+        for (int i = 0; i < pirs.size(); i++)
+            out.print("\t" + pirs.get(i).getState());
+
         out.print("\t" + siren.getState());
         out.print("\t" + central.getState());
+        for (int i = 0; i < people.size(); i++) {
+            out.print("\t" + people.get(i).getState());
+        }
         out.println();
     }
 
@@ -187,7 +253,7 @@ public class Stage3 {
         stage.readConfiguration(in);
 
         // DEBUG
-        //stage.printConfiguration();
+        stage.printConfiguration();
         
         stage.executeUserInteraction(new Scanner(System.in), new PrintStream(new File("output.csv")));
     }

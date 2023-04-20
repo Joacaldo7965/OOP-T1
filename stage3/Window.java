@@ -23,7 +23,7 @@ public class Window extends Frame{
     }
 
     public String getHeader(){
-        return "w"+id;
+        return "\tw"+id;
     }
     
     public Sensor getSensor(){

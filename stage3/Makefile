@@ -14,13 +14,15 @@ CLASSES = \
         State.java \
         SwitchState.java \
         Sensor.java \
+        PIR_Detector.java \
         MagneticSensor.java \
         Frame.java \
         Door.java \
         Window.java \
-        Stage2.java
+        Person.java \
+        Stage3.java
 
-MAIN = Stage2
+MAIN = Stage3
 
 default: classes
 

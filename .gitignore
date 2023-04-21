@@ -31,4 +31,7 @@ stage1/output.csv
 stage2/output.csv
 stage3/output.csv
 stage4/output.csv
+
+# Other files
 *.Identifier
+T1_ELO329_1s23.pdfZone.Identifier

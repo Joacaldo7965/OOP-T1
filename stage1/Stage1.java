@@ -131,12 +131,12 @@ public class Stage1 {
             System.exit(-1);
         }
         Scanner in = new Scanner(new File(args[0]));
-        System.out.println("File: " + args[0]);
+        //System.out.println("File: " + args[0]);
         Stage1 stage = new Stage1();
         stage.readConfiguration(in);
 
         // DEBUG
-        stage.printConfiguration();
+        //stage.printConfiguration();
 
         stage.executeUserInteraction(new Scanner(System.in), new PrintStream(new File("output.csv")));
     }

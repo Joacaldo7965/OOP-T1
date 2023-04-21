@@ -258,7 +258,7 @@ public class Stage4 {
         stage.readConfiguration(in);
 
         // DEBUG
-        stage.printConfiguration();
+        //stage.printConfiguration();
         
         stage.executeUserInteraction(new Scanner(System.in), new PrintStream(new File("output.csv")));
     }

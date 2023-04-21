@@ -26,6 +26,9 @@ Los comandos anteriores más la siguiente modificación:
 ## Aclaraciones
 - Para la clase Person, el comando del movimiento utilizado está dado por los parámetros: '↑', '→', '↓' y '←' con los códigos ascii 8592, 8593, 8594 y 8595, respectivamente.
 
+- Para la detección de personas de los PIRs se tomó en cuenta que 'direction_angle' está en medio del 'sensing_angle':
+![Diagrama](stage3/Math.png)
+
 ## Compilación y ejecución
 Primero se accede a la sección correspondiente: ('stage1', 'stage2', 'stage3' o 'stage4')
 ```sh
